@@ -4,6 +4,7 @@ const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
 
+const loadBackground = function(){
 loadImage('../imgs/tiles_map.png')
     .then (image => {
     const sprites = new SpriteSheet(image,70,70);
@@ -24,91 +25,110 @@ loadImage('../imgs/tiles_map.png')
  }
 
 });
+}
+
+
+
 
 
 const theCat = {
+
+    isJumping: false,
+
     position: {
         x:100,
         y:470,
     },
 
-    isJumping: false,
+    velocity:{
+        a:0,
+        b:0,
+    }
+};   
 
-    loadCat(){
-        return loadImage('../imgs/nyanCat.png')
+const loadCat = function(){
+    return loadImage('../imgs/nyanCat.png')
         .then (image => {
-            const sprites = new SpriteSheet(image, 80,80);
-            sprites.define('idle',0,0);
-            sprites.draw('idle',context, this.position.x,this.position.y);
-    });
-},
-    reset(){
-        this.position = {
-            x: 100,
-            y: 470
-        };
-    },
-
-    jump(){
-        console.log("jump");
-        if (this.isJumping === true) return;
-    
-        this.isJumping = true;
-        this.position.y -= 110;
-        // this.element.classList.add("jump");
-
-        setTimeout(() => {
-           context.clearRect(this.position.x, this.position.y, 80, 80 );
-          this.position.y += 110;
-          this.isJumping = false;
-          
-          this.loadCat();
-        //   this.element.classList.remove("jump");
-        }, 500);
-      },
-
-    move(direction){
-        console.log("move");
-        context.clearRect(this.position.x, this.position.y, 80, 80 );
-
-
-        if (direction == 'left') {
-            this.position.x -= 4;
-        } else if(direction == 'up'){
-            console.log("up");
-            theCat.jump();
-        } else if(direction == 'down'){
-            this.position.y+=4;
-        } else if(direction == 'right'){
-            this.position.x +=4;
-        }
-
-        theCat.loadCat();
-        requestAnimationFrame(theCat.move);
-    },
+        const sprites = new SpriteSheet(image, 80,80);
+        sprites.define('idle',0,0);
+        sprites.draw('idle', context, theCat.position.x,theCat.position.y)
+    })
 }
 
 
+ const controller = {
+     
+        left :false,
+        right : false,
+        up: false,
 
-  function handleKeyUp(evt) {
-    console.log(evt.code);
-    if (evt.code === "Space") theCat.jump();
-  }
-  
-  function handleKeyPress(evt) {
-    if (evt.code === "KeyE") theCat.move('up');
-    if (evt.code === "KeyS") {
-        theCat.move('left');
-    }
-    if (evt.code === "KeyF") theCat.move('right');
-  }
-  
+        keyListener: function(event){
+            let keyState = (event.type == "keydown")? true: false;
+            switch(event.keyCode) {
+                case 37:// arrowLeft
+                    console.log("here",keyState);
+                    controller.left = keyState;
+                break;
+                case 38: //arrowUp
+                    controller.up = keyState;
+                break;
+                case 39://arrowRight
+                    controller.right = keyState;
+                break;    
+                }
+            }   
+        };
+
+
+
+const loop = function(){
+        if(controller.up && theCat.isJumping == false){
+            theCat.velocity.b -=20;
+            theCat.isJumping = true;
+        }
+
+        if(controller.left==true){
+            theCat.velocity.a -= 1;
+            console.log(theCat.velocity)
+        }
+
+        if(controller.right){
+            theCat.velocity.a +=1;
+        }
+
+        theCat.position.y += 2;
+        theCat.position.x += theCat.velocity.a;
+        theCat.position.y += theCat.velocity.b;
+        theCat.velocity.a*=0.9;
+        theCat.velocity.b*=0.9; 
+
+
+        if(theCat.position.y>490){
+            theCat.isJumping = false;
+            theCat.position.y = 490;
+            theCat.velocity.b = 0;
+        }
+
+        if(theCat.position.x<10){
+            theCat.position.x = 870;
+        } else if(theCat.position.x>870){
+            theCat.position.x = 10;
+        }
+
+        loadBackground();
+        loadCat();
+        window.requestAnimationFrame(loop);
+    }     
+
+
   // event listeners
   function listen() {
-    window.addEventListener("keypress", handleKeyPress);
-    window.addEventListener("keyup", handleKeyUp);
+    window.addEventListener("keydown", controller.keyListener);
+    window.addEventListener("keyup", controller.keyListener);
+    window.requestAnimationFrame(loop);
   }
 
 
-theCat.loadCat();
-listen();
+  loadCat();
+  listen();
+
