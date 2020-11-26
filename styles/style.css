@@ -1,24 +1,39 @@
-* { 
-    margin:0; 
-    padding:0; 
-    user-select:none; 
-    overflow:hidden; 
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+
+
+* {
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  overflow: hidden;
 }
 
 
-html, body {
+html,
+body {
 
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
 
 }
 
 body {
 
   align-items: center;
-  background-color:#202830;
-  display:grid;
+  background-color: #202830;
+  display: flex;
+  flex-direction: column;
   justify-items: center;
+  align-items: center;
+
+}
+
+div {
+  /* width: 910px;
+  height: 710px; */
+  /* display: flex;
+  align-items: center;
+  justify-items: center; */
 
 }
 
@@ -26,14 +41,57 @@ canvas {
 
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+  display: none;
 
 }
 
-p {
 
-  color:#ffffff;
-  position:fixed;
+h1,
+h2,
+p {
+  color: #ffffff;
   font-weight: 800;
-  font-size:24px;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+h1 {
+  margin: 1% auto;
+  font-size: 1.5rem;
+}
+
+h2 {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+p {
+  font-weight: 400;
+  font-size: 0.8rem;
+  margin: 1% auto;
+}
+
+button {
+  border: none;
+  background: linear-gradient(to right, #67b26b, #4ca2cb);
+  color: #ffffff !important;
+  font-weight: 300;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  border-radius: 6px;
+  display: block;
+  transition: all 0.3s ease 0s;
+  margin-bottom: 1%;
+  font-size: 0.8rem;
+}
+
+
+button:hover {
+  color: #404040 !important;
+  font-weight: 700 !important;
+  letter-spacing: 3px;
+  background: white;
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+  transition: all 0.3s ease 0s;
 
 }

@@ -20,7 +20,7 @@ export const theCat = {
 
     position: {
         x: 100,
-        y: 390
+        y: 445
     },
 
     velocity: {
@@ -38,28 +38,64 @@ export const theCat = {
         bottom: 454,
         left: 100,
         right: 178
-    }
+    },
 
-    // old: {
-    //     x: 100,
-    //     y: 390
-    // }
+    oldPos: {
+        x: 100,
+        y: 445
+    },
+
+    oldBorders: {
+        top: 390,
+        bottom: 454,
+        left: 100,
+        right: 178
+    },
+
+
 
 };
 
 
-export const setBoders = function (number) {
-    theCat.position.y = (number + theCat.dimensions.height / 2);
+export const setBoders = {
+
+    setBottom(number) { // give number is the y value of a barrier
+        theCat.position.y = number - theCat.dimensions.height;
+        // when colliade at the bottom
+    },
+    setLeft(number) { // number is the 
+        theCat.position.x = number
+    },
+
+    setRight(number) {
+        theCat.position.x = (number - theCat.dimensions.width);
+    },
+
+    setTop(number) { //given number shall be the y value of the stone
+        theCat.position.y = number;
+    }
+
 }
 
 
-export const updateBorders = function () {
+
+const update = function () {
 
     theCat.borders.top = theCat.position.y;
     theCat.borders.bottom = theCat.position.y + theCat.dimensions.height;
     theCat.borders.left = theCat.position.x;
     theCat.borders.right = theCat.position.x + theCat.dimensions.width;
+    theCat.oldPos = theCat.position;
+    theCat.oldBorders.top = theCat.borders.top;
+    theCat.oldBorders.bottom = theCat.borders.bottom;
+    theCat.oldBorders.left = theCat.borders.left
+    theCat.oldBorders.right = theCat.borders.right;
+
+
 }
+
+
+
 
 
 export const loadCat = function () {
@@ -70,6 +106,7 @@ export const loadCat = function () {
             sprites.draw('idle', context, theCat.position.x, theCat.position.y)
         })
 }
+
 
 
 export const controller = {
@@ -83,7 +120,7 @@ export const controller = {
         let keyState = (event.type == "keydown") ? true : false;
         switch (event.keyCode) {
             case 37: // arrowLeft
-                console.log("here", keyState);
+                // console.log("here", keyState);
                 controller.left = keyState;
                 break;
             case 38: //arrowUp
@@ -104,13 +141,14 @@ export const controller = {
 
 export const loop = function () {
     if (controller.up && theCat.isJumping == false) {
-        theCat.velocity.b -= 20;
+        //&& collideCheck == false
+        theCat.velocity.b -= 15;
         theCat.isJumping = true;
     }
 
     if (controller.left == true) {
         theCat.velocity.a -= 1;
-        console.log(theCat.velocity)
+        // console.log(theCat.velocity)
     }
 
     if (controller.right) {
@@ -118,10 +156,11 @@ export const loop = function () {
     }
 
     //this downward velocity is performing a bit strangely; need to be fixed
-    if (controller.down && theCat.isJumping == false) {
-        theCat.velocity.b += 10;
-        theCat.isJumping = true;
-    }
+    // if (controller.down && theCat.isJumping == false && collideCheck == false) {
+    //     console.log()
+    //     theCat.velocity.b += 5;
+    //     theCat.isJumping = true;
+    // }
 
     theCat.position.y += 2;
     theCat.position.x += theCat.velocity.a;
@@ -130,9 +169,9 @@ export const loop = function () {
     theCat.velocity.b *= 0.9;
 
 
-    if (theCat.position.y > 430) {
+    if (theCat.position.y > 445) {
         theCat.isJumping = false;
-        theCat.position.y = 430;
+        theCat.position.y = 445;
         theCat.velocity.b = 0;
     }
 
@@ -141,11 +180,12 @@ export const loop = function () {
     } else if (theCat.position.x > 870) {
         theCat.position.x = 10;
     }
-    updateBorders();
+
     loadBackground();
     loadBricks();
-    collideCheck();
     loadCat();
+    update();
+    collideCheck();
 
     window.requestAnimationFrame(loop);
 }
