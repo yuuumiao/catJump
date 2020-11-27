@@ -1,13 +1,12 @@
 import {
-    loadImage,
-    SpriteSheet,
     loadBackground
 } from './world.js';
 import {
     loadCat,
     controller,
     loop,
-    stop
+    stop,
+    reset
 } from './player.js';
 import {
     loadBricks
@@ -46,6 +45,9 @@ function handleClick() {
 
 
 
+
+
+
 // event listeners
 function listen() {
     window.addEventListener("keydown", controller.keyListener);
@@ -62,22 +64,24 @@ function gameStart() {
 }
 
 
-
 export function cancelAnimation() {
-    console.log("loulou asked me to do that");
+
     isGameOn == false;
     console.log(isGameOn);
     window.cancelAnimationFrame(stop);
+
+}
+
+function stopPoint() {
+
+
 }
 
 function gameOver() {
+    reset();
+    cancelAnimation();
+    stopPoint();
 
-    // obstacles.reset();
-    // player.reset();
-    // tick = 0;
-    // time = 0;
-    // window.cancelAnimationFrame(_FRAMEID);
-    // world.end();
 }
 
 startBtn.addEventListener("click", handleClick);

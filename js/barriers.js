@@ -108,10 +108,6 @@ function loadLevels(level) {
 loadLevels(arrBricksLevel1);
 
 
-
-
-
-
 export const loadBricks = function () {
     loadImage('../imgs/tiles_map.png')
         .then(image => {

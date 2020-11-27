@@ -4,7 +4,6 @@ import {
     loadBackground
 } from './world.js';
 import {
-    canvas,
     context,
     isGameOn
 } from './main.js';
@@ -20,9 +19,6 @@ import {
 } from './goal.js';
 
 
-
-
-export let stop;
 
 export const theCat = {
 
@@ -62,9 +58,6 @@ export const theCat = {
         left: 100,
         right: 178
     },
-
-
-
 };
 
 
@@ -102,9 +95,17 @@ const update = function () {
     theCat.oldBorders.left = theCat.borders.left
     theCat.oldBorders.right = theCat.borders.right;
 
-
 }
 
+
+export const reset = function () {
+
+    theCat.isJumping = false;
+    theCat.position.x = 100;
+    theCat.position.y = 445;
+    theCat.velocity.a = 0;
+    theCat.velocity.b = 0;
+}
 
 
 
@@ -200,7 +201,6 @@ export const loop = function () {
     update();
     collideCheck();
     collideCheckMoving()
-    winCheck();
 
     if (isGameOn == true) {
         // console.log("--->>> is it true?");
