@@ -35,7 +35,7 @@ const goal = function (l, t, w, h) {
 goal(820, 22, 70, 40);
 
 export const loadGoal = function () {
-    return loadImage('../imgs/nyanCat.png')
+    return loadImage('./imgs/nyanCat.png')
         .then(image => {
             const sprites = new SpriteSheet(image, gw, gh);
             sprites.define('rainbow', 3, 10.7);

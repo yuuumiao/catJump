@@ -109,7 +109,7 @@ loadLevels(arrBricksLevel1);
 
 
 export const loadBricks = function () {
-    loadImage('./../imgs/tiles_map.png')
+    loadImage('./imgs/tiles_map.png')
         .then(image => {
             const sprites = new SpriteSheet(image, 70, 20);
             sprites.define('bricks', 5, 0);
