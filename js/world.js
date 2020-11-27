@@ -56,7 +56,7 @@ export function loadImage(url) {
 
 
 export const loadBackground = function () {
-    loadImage('../imgs/tiles_map.png')
+    loadImage('./../imgs/tiles_map.png')
         .then(image => {
             const sprites = new SpriteSheet(image, 70, 70);
             sprites.define('sky', 8, 0);

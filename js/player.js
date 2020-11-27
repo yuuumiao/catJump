@@ -111,7 +111,7 @@ export const reset = function () {
 
 
 export const loadCat = function () {
-    return loadImage('../imgs/nyanCat.png')
+    return loadImage('./../imgs/nyanCat.png')
         .then(image => {
             const sprites = new SpriteSheet(image, theCat.dimensions.width, theCat.dimensions.height);
             sprites.define('idle', 0, 0.32);
