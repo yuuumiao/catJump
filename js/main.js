@@ -6,7 +6,8 @@ import {
 import {
     loadCat,
     controller,
-    loop
+    loop,
+    stop
 } from './player.js';
 import {
     loadBricks
@@ -19,7 +20,7 @@ const startBtn = document.getElementById('startBtn');
 const startPic = document.getElementById('startPic');
 
 
-let isGameOn = false;
+export let isGameOn = false;
 
 
 function handleClick() {
@@ -42,6 +43,9 @@ function handleClick() {
 }
 
 
+
+
+
 // event listeners
 function listen() {
     window.addEventListener("keydown", controller.keyListener);
@@ -59,8 +63,11 @@ function gameStart() {
 
 
 
-function cancelAnimation() {
-    window.cancelAnimationFrame(loop);
+export function cancelAnimation() {
+    console.log("loulou asked me to do that");
+    isGameOn == false;
+    console.log(isGameOn);
+    window.cancelAnimationFrame(stop);
 }
 
 function gameOver() {

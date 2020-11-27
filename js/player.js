@@ -5,13 +5,24 @@ import {
 } from './world.js';
 import {
     canvas,
-    context
+    context,
+    isGameOn
 } from './main.js';
 import {
     collideCheck,
-    loadBricks
+    loadBricks,
+    updateBricks,
+    collideCheckMoving
 } from './barriers.js';
+import {
+    loadGoal,
+    winCheck
+} from './goal.js';
 
+
+
+
+export let stop;
 
 export const theCat = {
 
@@ -183,9 +194,16 @@ export const loop = function () {
 
     loadBackground();
     loadBricks();
+    updateBricks();
+    loadGoal();
     loadCat();
     update();
     collideCheck();
+    collideCheckMoving()
+    winCheck();
 
-    window.requestAnimationFrame(loop);
+    if (isGameOn == true) {
+        // console.log("--->>> is it true?");
+        stop = window.requestAnimationFrame(loop);
+    };
 }
